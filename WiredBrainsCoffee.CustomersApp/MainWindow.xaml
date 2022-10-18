@@ -1,0 +1,90 @@
+﻿<Window x:Class="WiredBrainsCoffee.CustomersApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WiredBrainsCoffee.CustomersApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Main menu -->
+        <Menu FontSize="20">
+            <MenuItem Header="_View">
+                <MenuItem Header="_Customers" />
+                <MenuItem Header="_Products" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Header -->
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Background="#F05A28">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Image Source="/Images/logo.png" Width="100" />
+                <TextBlock Text="Customers App" FontSize="30" Foreground="White" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                <TextBlock Text="Version 1.0" FontSize="16" Foreground="#333" VerticalAlignment="Center" Margin="10 10 0 0" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Customer list -->
+        <Grid Grid.Row="2" Background="#777">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnAddCustomer"                        
+                        Margin="10" Width="60">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/add.png" 
+                               Height="18" 
+                               Margin="0 0 5 0"/>
+                        <TextBlock Text="Add" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="0 10" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/delete.png" 
+                               Height="18" 
+                               Margin="0 0 5 0"/>
+                        <TextBlock Text="Delete" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="10 10 10 10">
+                    <Image Source="/Images/arrowright.png" 
+                           Height="18"/>
+                </Button>
+            </StackPanel>
+            <ListView Grid.Row="1" Margin="0 0 10 10">
+                <ListViewItem>Arska</ListViewItem>
+                <ListViewItem>Reiska</ListViewItem>
+                <ListViewItem>Erno</ListViewItem>
+            </ListView>
+        </Grid>
+
+        <!-- Customer detail -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="10">
+            <Label>First name:</Label>
+            <TextBox />
+            <Label>Last name:</Label>
+            <TextBox />
+            <CheckBox Margin="0 10 0 0">
+                Is developer
+            </CheckBox>
+        </StackPanel>
+
+        <!-- Status bar -->
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+            <StatusBarItem FontSize="20" Content="(c) Wired Brain Coffee Yeah!" />
+        </StatusBar>
+    </Grid>
+</Window>
