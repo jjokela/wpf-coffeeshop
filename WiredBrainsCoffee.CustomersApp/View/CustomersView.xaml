@@ -27,7 +27,7 @@
                 <Button x:Name="BtnAddCustomer" 
                         Margin="10" 
                         Width="60"
-                        Click="BtnAddCustomer_OnClick">
+                        Command="{Binding AddCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/add.png" 
                                    Height="18" 
@@ -35,7 +35,7 @@
                         <TextBlock Text="Add" />
                     </StackPanel>
                 </Button>
-                <Button Margin="0 10" >
+                <Button Margin="0 10" Command="{Binding DeleteCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/delete.png" 
                                    Height="18" />
@@ -43,7 +43,7 @@
                     </StackPanel>
                 </Button>
                 <Button x:Name="ButtonMoveNavigation" 
-                            Click="ButtonMoveNavigation_OnClick" 
+                            Command="{Binding MoveNavigationCommand}"
                             Margin="10 10 10 10"
                             Padding="2">
                     <Image x:Name="MoveArrow" Source="{Binding MoveArrowAsset}" 
@@ -59,7 +59,7 @@
         </Grid>
 
         <!-- Customer detail -->
-        <StackPanel Grid.Column="1" Margin="10">
+        <StackPanel Grid.Column="1" Margin="10" Visibility="{Binding IsCustomerSelected, Converter={StaticResource BooleanToVisibilityConv}}">
             <Label>First name:</Label>
             <TextBox Text="{Binding SelectedCustomer.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label>Last name:</Label>

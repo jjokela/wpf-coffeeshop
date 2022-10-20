@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using WiredBrainCoffee.CustomersApp.Data;
+using WiredBrainsCoffee.CustomersApp.Command;
 using WiredBrainsCoffee.CustomersApp.Model;
 
 namespace WiredBrainsCoffee.CustomersApp.ViewModel
@@ -9,6 +11,11 @@ namespace WiredBrainsCoffee.CustomersApp.ViewModel
     public class CustomerViewModel : ViewModelBase
     {
         private readonly ICustomerDataProvider _customerDataProvider;
+
+        public DelegateCommand AddCommand { get; }
+        public DelegateCommand MoveNavigationCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+
         private CustomerItemViewModel? _selectedCustomer;
         private NavigationSide _navigationSide;
         private string _moveArrowAsset = ImagesArrowrightPng;
@@ -20,7 +27,23 @@ namespace WiredBrainsCoffee.CustomersApp.ViewModel
         public CustomerViewModel(ICustomerDataProvider customerDataProvider)
         {
             _customerDataProvider = customerDataProvider;
+            AddCommand = new DelegateCommand(Add);
+            MoveNavigationCommand = new DelegateCommand(MoveNavigation);
+            DeleteCommand = new DelegateCommand(Delete, CanDelete);
         }
+
+        private void Delete(object? obj)
+        {
+            if(SelectedCustomer is not null)
+            {
+                Customers.Remove(SelectedCustomer);
+                SelectedCustomer = null;
+            }
+        }
+
+        private bool CanDelete(object? obj) => SelectedCustomer is not null;
+
+        public bool IsCustomerSelected => SelectedCustomer is not null;
 
         public CustomerItemViewModel? SelectedCustomer
         {
@@ -30,6 +53,8 @@ namespace WiredBrainsCoffee.CustomersApp.ViewModel
                 if (Equals(value, _selectedCustomer)) return;
                 _selectedCustomer = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsCustomerSelected));
+                DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -72,7 +97,7 @@ namespace WiredBrainsCoffee.CustomersApp.ViewModel
             }
         }
 
-        public void Add()
+        private void Add(object? parameter)
         {
             var customer = new Customer {FirstName = "Eka"};
             var viewModel = new CustomerItemViewModel(customer);
@@ -80,7 +105,7 @@ namespace WiredBrainsCoffee.CustomersApp.ViewModel
             SelectedCustomer = viewModel;
         }
 
-        public void MoveNavigation()
+        private void MoveNavigation(object? parameter)
         {
             NavigationSide = NavigationSide == NavigationSide.Left ? NavigationSide.Right : NavigationSide.Left;
             MoveArrowAsset = NavigationSide == NavigationSide.Left ? ImagesArrowrightPng : ImagesArrowleftPng;
