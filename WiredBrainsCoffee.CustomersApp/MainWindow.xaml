@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:WiredBrainsCoffee.CustomersApp.Controls"
         xmlns:view="clr-namespace:WiredBrainsCoffee.CustomersApp.View"
+        xmlns:viewModel="clr-namespace:WiredBrainsCoffee.CustomersApp.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:CustomerViewModel}">
+            <view:CustomersView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
+            <view:ProductsView/>
+        </DataTemplate>        
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,8 +27,12 @@
         <!-- Main menu -->
         <Menu FontSize="16" Grid.ColumnSpan="3">
             <MenuItem Header="_View">
-                <MenuItem Header="_Customers" />
-                <MenuItem Header="_Products" />
+                <MenuItem Header="_Customers" 
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding CustomersViewModel}"/>
+                <MenuItem Header="_Products" 
+                          Command="{Binding SelectViewModelCommand}"
+                          CommandParameter="{Binding ProductsViewModel}"/>
             </MenuItem>
         </Menu>
 
@@ -27,7 +40,8 @@
         <controls:HeaderControl Grid.Row="1" Grid.Column="0" />
 
         <!-- Customer view -->
-        <view:CustomersView Grid.Row="2" />
+        <ContentControl Grid.Row="2" Content="{Binding SelectedViewModel}"/>
+
 
         <!-- Status bar -->
         <StatusBar Grid.Row="3" Background="{StaticResource HeaderBackgroundBrush}">
